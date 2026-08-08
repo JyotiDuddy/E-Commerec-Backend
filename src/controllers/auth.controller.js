@@ -40,17 +40,18 @@ const Register = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/"
+});
 
     res.status(201).json({
       success: true,
       message: "User registered successfully",
-      token,
+    
       user: {
         id: user._id,
         firstName: user.firstName,
@@ -113,11 +114,12 @@ const Login = async (req, res) => {
       expiresIn: "7d"
     })
 
-    res.cookie("token", token, {
+  res.cookie("token", token, {
   httpOnly: true,
-  secure: false, // true in production with HTTPS
-  sameSite: "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/"
 });
 
     res.status(200).json({
@@ -132,7 +134,7 @@ const Login = async (req, res) => {
     addresses: user.addresses,
 
       },
-      token
+    
     })
   } catch (err) {
     console.log(err)
@@ -178,7 +180,7 @@ const ForgotPassword = async (req, res) => {
     console.log("Stored Token:", user.resetPasswordToken);
     console.log("Expiry:", user.resetPasswordExpires);
 
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+  const resetUrl = `https://e-commerce-frontend-hiw3.onrender.com/reset-password/${resetToken}`;
 
     await sendForgotPassword(user.email, user.firstName, resetUrl);
 
@@ -246,10 +248,11 @@ const Logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
+      secure: true,
+      sameSite: "none",
+      path: "/"
     });
+
 
     return res.status(200).json({
       success: true,
