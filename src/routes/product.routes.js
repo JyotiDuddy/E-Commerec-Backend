@@ -15,7 +15,7 @@ const {
   getSponsoredProducts,
   addReview,
   deleteReview,
-} = require("../controllers/product.controller");
+} = require("../controllers/product.Controller")
 
 
 router.get("/", getAllProducts);
