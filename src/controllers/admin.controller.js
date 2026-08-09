@@ -98,12 +98,13 @@ const AdminRegister = async (req, res) => {
     // ==========================
     // Set Cookie
     // ==========================
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/",
+});
 
     // ==========================
     // Success Response
@@ -189,9 +190,10 @@ const AdminLogin = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      path:"/"
     });
 
     return res.status(200).json({
@@ -267,8 +269,9 @@ const AdminLogout = async (req, res) => {
 
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite:"none",
+    path:"/"
     });
 
     return res.status(200).json({
